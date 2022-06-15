@@ -22,19 +22,23 @@ public class User {
           @Column(name="id")
           private int id;
           
-          @Column(name="firtsName")
-          private String firtName;
+          @Column(name="nationalityNumber")
+          private String nationalityNumber;
+          
+          @Column(name="firstName")
+          private String firstName;
           
           @Column(name="lastName")
           private String lastName;
+          
+          @Column(name="birthDay")
+          private int birthDay;
           
           @Column(name="email")
           private String email;
           
           @Column(name="password")
-          private String password;
-          
-          @Column(name="birthDay")
-          private int birthDay;
+          private int password;
+       
 
 }

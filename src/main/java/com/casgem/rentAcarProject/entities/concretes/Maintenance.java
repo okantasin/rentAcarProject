@@ -1,12 +1,14 @@
 package com.casgem.rentAcarProject.entities.concretes;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,12 +26,16 @@ public class Maintenance {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name = "datesent")
-	private Date datesent;
+	@Column(name = "send_date")
+	private LocalDate sendDate;
 	
-	@Column(name = "dateturned")
-	private Date datereturned;
+	@Column(name = "return_date")
+	private LocalDate returnDate;
 	
+	@ManyToOne
+	@JoinColumn(name="car_id")
+	private Car car;
 	
+
 	
 }

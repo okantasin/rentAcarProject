@@ -1,11 +1,18 @@
 package com.casgem.rentAcarProject.business.concretes;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.casgem.rentAcarProject.business.abstracts.CarService;
 import com.casgem.rentAcarProject.business.requests.cars.CreateCarRequest;
+import com.casgem.rentAcarProject.business.requests.cars.DeleteCarRequest;
+import com.casgem.rentAcarProject.business.requests.cars.UpdateCarRequest;
+import com.casgem.rentAcarProject.business.responses.cars.GetAllCarResponse;
+import com.casgem.rentAcarProject.business.responses.cars.GetCarResponse;
 import com.casgem.rentAcarProject.core.utilities.mapping.ModelMapperService;
+import com.casgem.rentAcarProject.core.utilities.results.DataResult;
 import com.casgem.rentAcarProject.core.utilities.results.Result;
 import com.casgem.rentAcarProject.core.utilities.results.SuccessResult;
 import com.casgem.rentAcarProject.dataAccess.abstracts.CarRepository;
@@ -27,5 +34,33 @@ public class CarManager implements CarService{
 	Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
 	this.carRepository.save(car);
 	return  new SuccessResult("CAR.ADDED");
+	}
+
+
+	@Override
+	public Result delete(DeleteCarRequest deleteCarRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Result update(UpdateCarRequest updateCarRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public DataResult<List<GetAllCarResponse>> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public DataResult<GetCarResponse> getById(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

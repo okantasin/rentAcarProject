@@ -21,5 +21,5 @@ public class CreateCarRequest {
 	
 	private Integer kilometer;
 	
-	
+	private int cityId;
 }

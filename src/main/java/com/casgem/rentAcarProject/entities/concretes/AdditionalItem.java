@@ -1,10 +1,13 @@
 package com.casgem.rentAcarProject.entities.concretes;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -15,18 +18,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="additionals")
+@Table(name = "additionals")
 public class AdditionalItem {
 	@Id()
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	
-	@Column(name="name")
+
+	@Column(name = "name")
 	private String name;
 
-	@Column(name="price")
-	private String price;
+	@Column(name = "price")
+	private double price;
 
+	@OneToMany(mappedBy = "additioalItem")
+	private List<AdditionalService> additionalServices;
 
 }

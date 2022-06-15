@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.casgem.rentAcarProject.business.abstracts.CarService;
 import com.casgem.rentAcarProject.business.requests.cars.CreateCarRequest;
+import com.casgem.rentAcarProject.business.requests.cars.DeleteCarRequest;
+import com.casgem.rentAcarProject.business.requests.cars.UpdateCarRequest;
 import com.casgem.rentAcarProject.core.utilities.results.Result;
 
 @RestController
@@ -22,6 +24,25 @@ public class CarController {
 	public Result add(@RequestBody CreateCarRequest createCarRequest) {
 		return this.carService.add(createCarRequest);
 		
+		
+		
 	}
-
+	
+	
+	@PostMapping("/delete")
+	public Result delete(@RequestBody DeleteCarRequest deleteCarRequest ) {
+	
+		return this.carService.delete(deleteCarRequest);
+		
+	}
+	
+	
+	@PostMapping("/update")
+	public Result update(@RequestBody UpdateCarRequest updateCarRequest ) {
+	
+		return this.carService.update(updateCarRequest);
+		
+	}
+	
 }
+
