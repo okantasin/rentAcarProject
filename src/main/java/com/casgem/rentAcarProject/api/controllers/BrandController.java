@@ -1,5 +1,6 @@
 package com.casgem.rentAcarProject.api.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,15 +14,17 @@ import com.casgem.rentAcarProject.core.utilities.results.Result;
 @RequestMapping("/api/brands")
 public class BrandController {
 	
+	@Autowired
 	private BrandService brandService;
 
-	public BrandController(BrandService brandService) {
-		super();
-		this.brandService = brandService;
-	}
-
+	/*
+	 * public BrandController(BrandService brandService) { super();
+	 * this.brandService = brandService; }
+	 */
+	
 	@PostMapping("/add")
 	public Result add(@RequestBody  CreateBrandRequest createBrandRequest) {
+		
 		return this.brandService.add(createBrandRequest);
 	}
 

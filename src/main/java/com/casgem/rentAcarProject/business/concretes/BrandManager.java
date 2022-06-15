@@ -15,16 +15,17 @@ public class BrandManager implements BrandService  {
 
 	@Autowired
 	private BrandRepository brandRepository;
+	
 	@Autowired
 	private ModelMapperService modelMapperService;
 	
-	
-
 	@Override
 	public Result add(CreateBrandRequest createBrandRequest) {
 		
 		Brand brand = this.modelMapperService.forRequest().map(createBrandRequest, Brand.class);
+		
 		this.brandRepository.save(brand);
+		
 		return new SuccessResult("BRAND.ADDED");
 	}
 

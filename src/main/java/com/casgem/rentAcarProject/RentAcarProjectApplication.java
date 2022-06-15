@@ -21,7 +21,7 @@ import com.casgem.rentAcarProject.core.utilities.results.ErrorDataResult;
 
 
 @SpringBootApplication
-@RestControllerAdvice // Aspect
+@RestControllerAdvice 
 
 public class RentAcarProjectApplication {
 
