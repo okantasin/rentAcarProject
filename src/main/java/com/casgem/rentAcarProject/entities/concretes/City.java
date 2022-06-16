@@ -30,13 +30,13 @@ public class City {
 	
 	
 	@OneToMany(mappedBy = "city")
-	List<Car> cars;
+	private List<Car> cars;
 	
 	@OneToMany(mappedBy = "pickupCityId")
-	List<Rental> pickupCityRentals;
+	private List<Rental> pickupCityRentals;
 	
 	@OneToMany(mappedBy =  "returnCityId")
-	List<Rental> returnCityRental;
+	private List<Rental> returnCityRentals;
 	
 
 	

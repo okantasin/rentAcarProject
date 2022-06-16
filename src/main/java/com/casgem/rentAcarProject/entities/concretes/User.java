@@ -25,16 +25,16 @@ public class User {
           @Column(name="id")
           private int id;
           
-          @Column(name="nationalityNumber")
+          @Column(name="nationality_number")
           private String nationalityNumber;
           
-          @Column(name="firs_name")
+          @Column(name="first_name")
           private String firstName;
           
           @Column(name="last_name")
           private String lastName;
           
-          @Column(name="birthDay")
+          @Column(name="birth_day")
           private int birthDay;
           
           @Column(name="email")
@@ -44,7 +44,7 @@ public class User {
           private int password;
           
           @OneToMany(mappedBy = "user")
-          List<Rental> rental;
+          List<Rental> rentals;
        
 
 }

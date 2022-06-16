@@ -29,27 +29,27 @@ public class Rental {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="pickupDate")
+	@Column(name="pickup_date")
 	private LocalDate pickupDate;
 	
-	@Column(name="returnDate")
+	@Column(name="return_date")
 	private LocalDate returnDate;
 	
-	@Column(name="totalDays")
+	@Column(name="total_days")
 	private int totalDays;
 	
-	@Column(name="totalPrice")
+	@Column(name="total_price")
 	private double totalPrice;
 	
 	@ManyToOne
 	@JoinColumn(name="car_id")
 	private Car car;
 	
-	
+	//Arabayı kiraladığımız şehir
 	@ManyToOne
 	@JoinColumn(name="pickup_city_id")
 	private City pickupCityId;
-	
+	//Arabayı teslim ettiğimiz şehir
 	@ManyToOne
 	@JoinColumn(name="return_city_id")
 	private City returnCityId;

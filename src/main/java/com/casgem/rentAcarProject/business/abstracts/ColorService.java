@@ -13,8 +13,12 @@ import com.casgem.rentAcarProject.core.utilities.results.Result;
 public interface ColorService {
 
 	Result add(CreateColorRequest createColorRequest);
+	
 	Result delete(DeleteColorRequest deleteColorRequest);
+	
 	Result update(UpdateColorRequest updateColorRequest);
+	
 	DataResult<List<GetAllColorResponse>> getAll();
+	
 	DataResult<GetColorResponse> getById();
 }

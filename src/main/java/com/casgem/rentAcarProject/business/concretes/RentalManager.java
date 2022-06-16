@@ -49,12 +49,14 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public Result update(UpdateRentalRequest updateRentalRequest) {
-		// TODO Auto-generated method stub
+
+		Rental rental = this.rentalRepository.findById(updateRentalRequest.getId());
 		return null;
 	}
 
 	@Override
 	public DataResult<List<GetAllRentalResponse>> getAll() {
+		
 		List<Rental> rentals = this.rentalRepository.findAll();
 		
 		List<GetAllRentalResponse> responses = rentals.stream().map(
@@ -72,7 +74,6 @@ public class RentalManager implements RentalService {
 		Rental rental = this.rentalRepository.findById(id);
 		
 		GetRentalResponse responses = this.modelMapperService.forResponse().map(rental, GetRentalResponse.class);
-		
 		
 		return new  SuccessDataResult<GetRentalResponse>(responses);
 	}

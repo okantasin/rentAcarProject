@@ -52,14 +52,14 @@ public class Car {
 	@JoinColumn(name = "color_id")
 	private Color color;
 
-	
+	//Bir araç bir çok kez bakıma gidebilir
 	@OneToMany(mappedBy = "car")
-	List<Maintenance> maintenances;
-	
+	private List<Maintenance> maintenances;
+	//Bir araç birden çok kiralanabilir.
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
 	
-	
+	//Bir şehirde birden fazla araç olabilir
 	@ManyToOne
 	@JoinColumn(name="city_id")
 	private City city;

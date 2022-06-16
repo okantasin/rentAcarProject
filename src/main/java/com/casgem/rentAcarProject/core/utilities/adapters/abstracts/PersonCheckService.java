@@ -1,4 +1,4 @@
-package com.casgem.rentAcarProject.business.abstracts;
+package com.casgem.rentAcarProject.core.utilities.adapters.abstracts;
 
 import java.rmi.RemoteException;
 
@@ -6,5 +6,5 @@ import com.casgem.rentAcarProject.business.requests.users.CreateUserRequest;
 
 public interface PersonCheckService {
 
-	Boolean checkPerson(CreateUserRequest createUserRequest) throws RemoteException;
+	boolean checkPerson(CreateUserRequest createUserRequest) throws RemoteException;
 }

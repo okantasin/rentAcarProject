@@ -13,10 +13,13 @@ import com.casgem.rentAcarProject.core.utilities.results.Result;
 public interface MaintenanceService {
 	
 	Result add(CreateMaintenanceRequest maintenanceRequest);
+	
 	Result update(UpdateMaintenanceRequest updateMaintenanceRequest);
+	
 	Result delete(DeleteMaintenanceRequest deleteCreateMaintenanceRequest);
 	
 	DataResult<List<GetAllMaintenanceResponse>> getAll();
+	
 	DataResult<GetMainteranceResponse> getById(int id);
 
 }

@@ -73,4 +73,5 @@ public class UserManager implements UserService {
 		return new SuccessDataResult<GetUserResponse>(responses);
 	}
 
+	
 }

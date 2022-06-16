@@ -27,7 +27,7 @@ public class Brand {
 	
 	@Column(name="name")
 	private String name;
-	
+	//Bir markada birden çok araba olabilir
 	@OneToMany(mappedBy ="brand")
     List<Car> cars;
 }

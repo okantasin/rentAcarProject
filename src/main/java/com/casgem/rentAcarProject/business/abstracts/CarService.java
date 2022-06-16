@@ -13,9 +13,13 @@ import com.casgem.rentAcarProject.core.utilities.results.Result;
 public interface CarService {
 	
 	Result add(CreateCarRequest createCarRequest);
+	
 	Result delete(DeleteCarRequest deleteCarRequest);
+	
 	Result update(UpdateCarRequest updateCarRequest);
+	
 	DataResult<List<GetAllCarResponse>> getAll();
+	
 	DataResult<GetCarResponse> getById(int id);
 
 }
