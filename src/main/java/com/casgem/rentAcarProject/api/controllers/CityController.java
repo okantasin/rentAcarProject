@@ -1,7 +1,10 @@
 package com.casgem.rentAcarProject.api.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.casgem.rentAcarProject.business.abstracts.CityService;
 import com.casgem.rentAcarProject.business.requests.citys.CreateCityRequest;
@@ -9,8 +12,11 @@ import com.casgem.rentAcarProject.business.requests.citys.DeleteCityRequest;
 import com.casgem.rentAcarProject.business.requests.citys.UpdateCityRequest;
 import com.casgem.rentAcarProject.core.utilities.results.Result;
 
+
+@RestController
+@RequestMapping("/api/cities")
 public class CityController {
-	
+	@Autowired
 	private CityService cityService;
 	
 	@PostMapping("/add")

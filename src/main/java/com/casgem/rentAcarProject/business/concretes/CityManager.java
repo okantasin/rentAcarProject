@@ -47,7 +47,7 @@ public class CityManager implements CityService {
 		
 	 this.cityRepository.deleteById(deleteCityRequest.getId());
 	 
-		return new SuccessResult("CITY.ADDED");
+		return new SuccessResult("CITY.DELETED");
 	}
 
 	@Override

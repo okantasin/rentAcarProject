@@ -24,8 +24,6 @@ public class CarController {
 	public Result add(@RequestBody CreateCarRequest createCarRequest) {
 		return this.carService.add(createCarRequest);
 		
-		
-		
 	}
 	
 	

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateCarRequest {
 	
+	private int id;
+	
 	private String description;
 	
 	private double dailyPrice;

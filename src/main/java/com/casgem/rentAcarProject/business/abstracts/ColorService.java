@@ -20,5 +20,5 @@ public interface ColorService {
 	
 	DataResult<List<GetAllColorResponse>> getAll();
 	
-	DataResult<GetColorResponse> getById();
+	DataResult<GetColorResponse> getById(int id);
 }

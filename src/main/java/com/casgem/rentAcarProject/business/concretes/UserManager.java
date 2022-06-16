@@ -61,7 +61,7 @@ public class UserManager implements UserService {
 						.map(user,GetAllUserResponse.class))
 				.collect(Collectors.toList());
 				
-		return new SuccessDataResult<List<GetAllUserResponse>>(responses);
+		return new SuccessDataResult<List<GetAllUserResponse>>(responses,"ALL USERS LİSTED");
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class UserManager implements UserService {
 		GetUserResponse responses = this.modelMapperService.forResponse()
 				.map(user, GetUserResponse.class);
 		
-		return new SuccessDataResult<GetUserResponse>(responses);
+		return new SuccessDataResult<GetUserResponse>(responses,"USES LİSTED");
 	}
 
 	

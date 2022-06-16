@@ -12,6 +12,7 @@ import com.casgem.rentAcarProject.business.requests.brands.DeleteBrandRequest;
 import com.casgem.rentAcarProject.business.requests.brands.UpdateBrandRequest;
 import com.casgem.rentAcarProject.business.responses.brands.GetAllBrandResponse;
 import com.casgem.rentAcarProject.business.responses.brands.GetBrandResponse;
+import com.casgem.rentAcarProject.core.utilities.exceptions.BusinessException;
 import com.casgem.rentAcarProject.core.utilities.mapping.ModelMapperService;
 import com.casgem.rentAcarProject.core.utilities.results.DataResult;
 import com.casgem.rentAcarProject.core.utilities.results.Result;
@@ -22,7 +23,7 @@ import com.casgem.rentAcarProject.entities.concretes.Brand;
 @Service
 public class BrandManager implements BrandService  {
 
-	@Autowired
+	@Autowired //repositorynin somutunu bana ver
 	private BrandRepository brandRepository;
 	
 	@Autowired
@@ -30,6 +31,8 @@ public class BrandManager implements BrandService  {
 	
 	@Override
 	public Result add(CreateBrandRequest createBrandRequest) {
+		
+		checkIfBrandNameExits(createBrandRequest.getName());
 		
 		Brand brand = this.modelMapperService.forRequest().map(createBrandRequest, Brand.class);
 		
@@ -48,20 +51,31 @@ public class BrandManager implements BrandService  {
 	}
 	@Override
 	public Result update(UpdateBrandRequest updateBrandRequest) {
+		
+		checkIfBrandNameExits(updateBrandRequest.getName());
+		
 		Brand brand = this.brandRepository.findById(updateBrandRequest.getId());
+		
 		this.brandRepository.save(brand);
+		
 		return new SuccessResult("BRAND.UPDATE");
 	}
 
 
 	@Override
 	public DataResult<List<GetAllBrandResponse>> getAll() {
+		
 		List<Brand> brands = this.brandRepository.findAll();
+		
 		List<GetAllBrandResponse> responses = brands.stream().map(
+				
 				brand->this.modelMapperService.forResponse()
+				
 				.map(brands, GetAllBrandResponse.class))
+				
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<GetAllBrandResponse>>(responses);
+		
+		return new SuccessDataResult<List<GetAllBrandResponse>>(responses,"ALL.BRAND.LISTED");
 	}
 
 	@Override
@@ -71,7 +85,20 @@ public class BrandManager implements BrandService  {
 		
 		GetBrandResponse responses = this.modelMapperService.forResponse().map(brand, GetBrandResponse.class);
 		
-		return new SuccessDataResult<GetBrandResponse>(responses);
+		return new SuccessDataResult<GetBrandResponse>(responses,"BRAND.LISTED");
+	}
+	
+	
+	//Aynı markaya sahip mi kontrol et
+	public void checkIfBrandNameExits(String name) {
+		
+		Brand currentBrand = this.brandRepository.findByName(name);
+		
+		if(currentBrand != null) {
+			
+			throw new BusinessException("BRAND.EXITS");
+			
+		}
 	}
 
 	
