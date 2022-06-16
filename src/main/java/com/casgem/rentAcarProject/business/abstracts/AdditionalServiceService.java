@@ -12,9 +12,12 @@ import com.casgem.rentAcarProject.core.utilities.results.Result;
 
 public interface AdditionalServiceService {
 	Result add(CreateAdditionalServiceRequest additionalServiceRequest);
+	
 	Result update(UpdateAdditionalServiceRequest updateAdditionalServiceRequest);
+	
 	Result delete(DeleteAdditionalServiceRequest deleteAdditionalServiceRequest);
 	
 	DataResult<List<GetAllAdditioServiceResponse>> getAll();
+	
 	DataResult<GetAdditionalServiceResponse> getById(int id);
 }

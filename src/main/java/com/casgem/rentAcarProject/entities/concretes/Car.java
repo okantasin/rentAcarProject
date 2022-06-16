@@ -32,10 +32,17 @@ public class Car {
 	@Column(name = "description")
 	private String description;
 	
-	
 	@Column(name = "dailyPrice")
 	private double dailyPrice;
 	
+	@Column(name = "plate")
+	private String plate;
+	
+	@Column(name="state")
+	private int state;
+	
+	@Column(name = "kilometer")
+	private Integer kilometer;
 	
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
@@ -45,24 +52,17 @@ public class Car {
 	@JoinColumn(name = "color_id")
 	private Color color;
 
-	@Column(name = "plate")
-	private String plate;
-	
-	
-	@Column(name = "kilometer")
-	private Integer kilometer;
-	
-	@Column(name="state")
-	private int state;
-	
-	@Column(name="city_id")
-	private City city;
 	
 	@OneToMany(mappedBy = "car")
 	List<Maintenance> maintenances;
 	
+	@OneToMany(mappedBy = "car")
+	private List<Rental> rentals;
 	
 	
+	@ManyToOne
+	@JoinColumn(name="city_id")
+	private City city;
 
 	
 

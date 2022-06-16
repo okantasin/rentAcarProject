@@ -31,15 +31,19 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
+		
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 
 		this.rentalRepository.save(rental);
+		
 		return new SuccessResult("RENTAL.ADDED");
 	}
 
 	@Override
 	public Result delete(DeleteRentalRequest deleteRentalRequest) {
+		
 		this.rentalRepository.findById(deleteRentalRequest.getId());
+		
 		return new SuccessResult("RENTAL.DELETED");
 	}
 

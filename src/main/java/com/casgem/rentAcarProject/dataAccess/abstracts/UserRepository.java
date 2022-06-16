@@ -6,6 +6,6 @@ import com.casgem.rentAcarProject.entities.concretes.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findById(int id); 
-    User findByNationlatiyNumber(String nationalityNumber);
+    User findByNationalityNumber(String nationalityNumber);
 
 }

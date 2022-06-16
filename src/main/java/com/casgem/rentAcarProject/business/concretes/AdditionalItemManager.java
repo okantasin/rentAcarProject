@@ -15,7 +15,8 @@ import com.casgem.rentAcarProject.core.utilities.results.Result;
 @Service
 
 public class AdditionalItemManager implements AdditionalItemService{
-
+	
+	
 	@Override
 	public Result add(CreateAdditionalServiceRequest createAdditionalServiceRequest) {
 		// TODO Auto-generated method stub
