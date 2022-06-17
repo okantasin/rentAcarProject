@@ -2,10 +2,14 @@ package com.casgem.rentAcarProject.dataAccess.abstracts;
 
 import java.util.List;
 
-public interface AdditionalFeatureServiceRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
 
-	AdditionalFeatureServiceRepository findById(int id);
-	List<AdditionalFeatureServiceRepository> getByRentalId(int id);
+import com.casgem.rentAcarProject.entities.concretes.AdditionalFeatureService;
+
+public interface AdditionalFeatureServiceRepository extends JpaRepository<AdditionalFeatureService, Integer> {
+
+	AdditionalFeatureService findById(int id);
+	List<AdditionalFeatureService> getByRentalId(int id);
 
 
 }

@@ -26,37 +26,42 @@ public class CityManager implements CityService {
 
 	@Autowired
 	private CityRepository cityRepository;
-	
+
 	@Autowired
 	private ModelMapperService modelMapperService;
-	
-	
-	
+
+	@Autowired
+	public CityManager(CityRepository cityRepository, ModelMapperService modelMapperService) {
+		super();
+		this.cityRepository = cityRepository;
+		this.modelMapperService = modelMapperService;
+	}
+
 	@Override
 	public Result add(CreateCityRequest createCityRequest) {
-		
+
 		City city = this.modelMapperService.forRequest().map(createCityRequest, City.class);
-		
+
 		this.cityRepository.save(city);
-		
+
 		return new SuccessResult("CİTY.ADDED");
 	}
 
 	@Override
 	public Result delete(DeleteCityRequest deleteCityRequest) {
-		
-	 this.cityRepository.deleteById(deleteCityRequest.getId());
-	 
+
+		this.cityRepository.deleteById(deleteCityRequest.getId());
+
 		return new SuccessResult("CITY.DELETED");
 	}
 
 	@Override
 	public Result update(UpdateCityRequest updateCityRequest) {
-		
+
 		City city = this.cityRepository.findById(updateCityRequest.getId());
-		
+
 		this.cityRepository.save(city);
-		
+
 		return new SuccessResult("CİTY.UPDATED");
 	}
 
@@ -64,13 +69,13 @@ public class CityManager implements CityService {
 	public DataResult<List<GetAllCityResponse>> getAll() {
 
 		List<City> citys = this.cityRepository.findAll();
-		
+
 		List<GetAllCityResponse> responses = citys.stream().map(
-				
-				city-> this.modelMapperService.forResponse().map(citys, GetAllCityResponse.class)
-				
-				).collect(Collectors.toList());
-				
+
+				city -> this.modelMapperService.forResponse().map(citys, GetAllCityResponse.class)
+
+		).collect(Collectors.toList());
+
 		return new SuccessDataResult<List<GetAllCityResponse>>(responses);
 	}
 
@@ -78,10 +83,10 @@ public class CityManager implements CityService {
 	public DataResult<GetCityResponse> getById(int id) {
 
 		City city = this.cityRepository.findById(id);
-		
-		GetCityResponse responses=this.modelMapperService.forResponse().map(city, GetCityResponse.class);
-		
-		return new SuccessDataResult<GetCityResponse>(responses,"ALL CİTY ");
+
+		GetCityResponse responses = this.modelMapperService.forResponse().map(city, GetCityResponse.class);
+
+		return new SuccessDataResult<GetCityResponse>(responses, "ALL CİTY ");
 	}
 
 }

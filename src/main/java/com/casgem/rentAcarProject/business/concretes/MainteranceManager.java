@@ -34,6 +34,15 @@ public class MainteranceManager implements MaintenanceService {
 	@Autowired
 	private CarRepository carRepository;
 
+	@Autowired
+	public MainteranceManager(MaintenanceRepository maintenanceRepository, ModelMapperService modelMapperService,
+			CarRepository carRepository) {
+		super();
+		this.maintenanceRepository = maintenanceRepository;
+		this.modelMapperService = modelMapperService;
+		this.carRepository = carRepository;
+	}
+
 	@Override
 	public Result add(CreateMaintenanceRequest createMaintenanceRequest) {
 

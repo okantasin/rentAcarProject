@@ -1,7 +1,11 @@
 package com.casgem.rentAcarProject.dataAccess.abstracts;
 
-public interface AdditionalFeatureItemRepository {
-	AdditionalFeatureItemRepository findById(int id);
-	AdditionalFeatureItemRepository findByName(String name);
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.casgem.rentAcarProject.entities.concretes.AdditionalFeatureItem;
+
+public interface AdditionalFeatureItemRepository extends JpaRepository<AdditionalFeatureItem, Integer>{
+	AdditionalFeatureItem findById(int id);
+	
 
 }

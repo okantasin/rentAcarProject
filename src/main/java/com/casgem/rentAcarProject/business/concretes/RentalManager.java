@@ -8,37 +8,49 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.casgem.rentAcarProject.business.abstracts.AdditionalFeatureItemService;
 import com.casgem.rentAcarProject.business.abstracts.RentalService;
 import com.casgem.rentAcarProject.business.requests.rentals.CreateRentalRequest;
 import com.casgem.rentAcarProject.business.requests.rentals.DeleteRentalRequest;
 import com.casgem.rentAcarProject.business.requests.rentals.UpdateRentalRequest;
 import com.casgem.rentAcarProject.business.responses.rentals.GetAllRentalResponse;
 import com.casgem.rentAcarProject.business.responses.rentals.GetRentalResponse;
+import com.casgem.rentAcarProject.core.utilities.adapters.abstracts.FindeksCheckService;
 import com.casgem.rentAcarProject.core.utilities.exceptions.BusinessException;
 import com.casgem.rentAcarProject.core.utilities.mapping.ModelMapperService;
 import com.casgem.rentAcarProject.core.utilities.results.DataResult;
 import com.casgem.rentAcarProject.core.utilities.results.Result;
 import com.casgem.rentAcarProject.core.utilities.results.SuccessDataResult;
 import com.casgem.rentAcarProject.core.utilities.results.SuccessResult;
+import com.casgem.rentAcarProject.dataAccess.abstracts.AdditionalFeatureItemRepository;
 import com.casgem.rentAcarProject.dataAccess.abstracts.CarRepository;
 import com.casgem.rentAcarProject.dataAccess.abstracts.RentalRepository;
+import com.casgem.rentAcarProject.dataAccess.abstracts.UserRepository;
 import com.casgem.rentAcarProject.entities.concretes.Car;
 import com.casgem.rentAcarProject.entities.concretes.Rental;
+import com.casgem.rentAcarProject.entities.concretes.User;
 
 @Service
 
 public class RentalManager implements RentalService {
 
-	@Autowired
 	private RentalRepository rentalRepository;
 
-	@Autowired
 	private CarRepository carRepository;
 
-	@Autowired
 	private ModelMapperService modelMapperService;
+	@Autowired
+	private AdditionalFeatureItemService additionalFeatureItemService;
 
 	@Autowired
+
+	private AdditionalFeatureItemRepository additionalFeatureItemRepository;
+
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private FindeksCheckService findeksCheckService;
+
 	public RentalManager(RentalRepository rentalRepository, CarRepository carRepository,
 			ModelMapperService modelMapperService) {
 		this.rentalRepository = rentalRepository;
@@ -51,12 +63,14 @@ public class RentalManager implements RentalService {
 	public Result add(CreateRentalRequest createRentalRequest) {
 
 		checkIfCarState(createRentalRequest.getCarId());
+		User user = this.userRepository.findById(createRentalRequest.getCarId());
 
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 
 		checkIfDatesAreCorrect(createRentalRequest.getPickupDate(), createRentalRequest.getReturnDate());
 
 		Car car = this.carRepository.findById(createRentalRequest.getCarId());
+		checkIndividualCustomerFindexScoreAndCarFindexScore(car.getId(),user.getId());
 
 		car.setState(3);
 
@@ -149,6 +163,18 @@ public class RentalManager implements RentalService {
 		if (rental == null) {
 			throw new BusinessException("THERE.IS.NO.RENTED.CAR");
 		}
+	}
+	private void checkIndividualCustomerFindexScoreAndCarFindexScore(int carId, int userId) {
+		
+		Car car = this.carRepository.findById(carId);
+		User user = this.userRepository.findById(userId);
+		int userFindexScore = this.findeksCheckService.checkPerson(user.getNationalityNumber());
+		System.out.println("Car score "+car.getMinFindeksScore());
+		if(userFindexScore < car.getMinFindeksScore()) {
+			throw new BusinessException("FINDEKS.SCORE.IS.NOT.ENOUGH");
+		}
+		
+		
 	}
 
 }

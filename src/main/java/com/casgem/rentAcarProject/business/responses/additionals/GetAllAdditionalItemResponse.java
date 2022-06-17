@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllAdditionItemResponse {
+public class GetAllAdditionalItemResponse {
 private int id;
 private String name;
 private double price;

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllAdditioServiceResponse {
+public class GetAllAdditionalServiceResponse {
 	private int totalDays;
 	private double totalPrice;
 	private int rentalId;

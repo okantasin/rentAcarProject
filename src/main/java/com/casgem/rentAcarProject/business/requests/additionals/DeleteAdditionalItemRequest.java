@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateAdditionalRequest {
-	private String name;
-	private double price;
+public class DeleteAdditionalItemRequest {
+	private int id;
 
 }
