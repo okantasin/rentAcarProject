@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.casgem.rentAcarProject.business.abstracts.AdditionalFeatureItemService;
-import com.casgem.rentAcarProject.business.requests.additionals.CreateAdditionalItemRequest;
-import com.casgem.rentAcarProject.business.requests.additionals.DeleteAdditionalItemRequest;
-import com.casgem.rentAcarProject.business.requests.additionals.UpdateAdditionalItemRequest;
+import com.casgem.rentAcarProject.business.requests.additional.CreateAdditionalItemRequest;
+import com.casgem.rentAcarProject.business.requests.additional.DeleteAdditionalItemRequest;
+import com.casgem.rentAcarProject.business.requests.additional.UpdateAdditionalItemRequest;
 import com.casgem.rentAcarProject.business.responses.additionals.GetAdditionalItemResponse;
 import com.casgem.rentAcarProject.business.responses.additionals.GetAllAdditionalItemResponse;
 import com.casgem.rentAcarProject.core.utilities.mapping.ModelMapperService;
@@ -25,6 +25,7 @@ import com.casgem.rentAcarProject.entities.concretes.AdditionalFeatureItem;
 public class AdditionalFeatureItemManager implements AdditionalFeatureItemService {
 
 	private AdditionalFeatureItemRepository additionalFeatureItemRepository;
+	
 	private ModelMapperService modelMapperService;
 
 	@Autowired
@@ -38,33 +39,47 @@ public class AdditionalFeatureItemManager implements AdditionalFeatureItemServic
 
 	@Override
 	public Result add(CreateAdditionalItemRequest createAdditionalItemRequest) {
+		
 		AdditionalFeatureItem additionalFeatureItem = this.modelMapperService.forRequest()
+				
 				.map(createAdditionalItemRequest, AdditionalFeatureItem.class);
 
 		this.additionalFeatureItemRepository.save(additionalFeatureItem);
+		
 		return new SuccessResult("ITEM.ADDED");
 	}
 
 	@Override
 	public Result delete(DeleteAdditionalItemRequest deleteAdditionalItemRequest) {
+		
 		this.additionalFeatureItemRepository.deleteById(deleteAdditionalItemRequest.getId());
+		
 		return new SuccessResult("ITEM.DELETED");
 	}
 
 	@Override
 	public Result update(UpdateAdditionalItemRequest updateAdditionalItemRequest) {
+		
 		AdditionalFeatureItem additionalFeatureItem = this.modelMapperService.forRequest()
+				
 				.map(updateAdditionalItemRequest, AdditionalFeatureItem.class);
+		
 		this.additionalFeatureItemRepository.save(additionalFeatureItem);
+		
 		return new SuccessResult("ITEM.UPDATED");
+		
 	}
 
 
 	@Override
 	public DataResult<List<GetAllAdditionalItemResponse>> getAll() {
+		
 		List<AdditionalFeatureItem> additionalFeatureItems = this.additionalFeatureItemRepository.findAll();
+		
 		List<GetAllAdditionalItemResponse> response = additionalFeatureItems.stream().map(
+				
 				item -> this.modelMapperService.forResponse().map(item, GetAllAdditionalItemResponse.class))
+				
 				.collect(Collectors.toList());
 		
 		return new SuccessDataResult<List<GetAllAdditionalItemResponse>>(response,"ITEM.LISTED");
@@ -73,8 +88,11 @@ public class AdditionalFeatureItemManager implements AdditionalFeatureItemServic
 
 	@Override
 	public DataResult<GetAdditionalItemResponse> getById(int id) {
+		
 		AdditionalFeatureItem additionalFeatureItem = this.additionalFeatureItemRepository.findById(id);
+		
 		GetAdditionalItemResponse  response = this.modelMapperService.forResponse().map(additionalFeatureItem, GetAdditionalItemResponse.class);
+		
 		return new SuccessDataResult<GetAdditionalItemResponse>(response);
 	}
 

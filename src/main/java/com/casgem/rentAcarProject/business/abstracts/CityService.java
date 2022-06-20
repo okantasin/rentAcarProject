@@ -2,9 +2,9 @@ package com.casgem.rentAcarProject.business.abstracts;
 
 import java.util.List;
 
-import com.casgem.rentAcarProject.business.requests.citys.CreateCityRequest;
-import com.casgem.rentAcarProject.business.requests.citys.DeleteCityRequest;
-import com.casgem.rentAcarProject.business.requests.citys.UpdateCityRequest;
+import com.casgem.rentAcarProject.business.requests.city.CreateCityRequest;
+import com.casgem.rentAcarProject.business.requests.city.DeleteCityRequest;
+import com.casgem.rentAcarProject.business.requests.city.UpdateCityRequest;
 import com.casgem.rentAcarProject.business.responses.citys.GetAllCityResponse;
 import com.casgem.rentAcarProject.business.responses.citys.GetCityResponse;
 import com.casgem.rentAcarProject.core.utilities.results.DataResult;

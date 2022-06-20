@@ -1,15 +1,24 @@
 package com.casgem.rentAcarProject.api.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.casgem.rentAcarProject.business.abstracts.AdditionalFeatureItemService;
-import com.casgem.rentAcarProject.business.requests.additionals.CreateAdditionalItemRequest;
-import com.casgem.rentAcarProject.business.requests.additionals.DeleteAdditionalItemRequest;
-import com.casgem.rentAcarProject.business.requests.additionals.UpdateAdditionalItemRequest;
+import com.casgem.rentAcarProject.business.requests.additional.CreateAdditionalItemRequest;
+import com.casgem.rentAcarProject.business.requests.additional.DeleteAdditionalItemRequest;
+import com.casgem.rentAcarProject.business.requests.additional.UpdateAdditionalItemRequest;
+import com.casgem.rentAcarProject.business.responses.additionals.GetAllAdditionalItemResponse;
+import com.casgem.rentAcarProject.core.utilities.results.DataResult;
 import com.casgem.rentAcarProject.core.utilities.results.Result;
 
+@RestController
+@RequestMapping("/api/additionalItems")
 public class AdditionItemController {
 	@Autowired
 	private AdditionalFeatureItemService additionalFeatureItemService;
@@ -38,6 +47,12 @@ public class AdditionItemController {
 		
 	}
 
+	@GetMapping("/getAll")
+	public DataResult<List<GetAllAdditionalItemResponse>> getAll(){
+		return this.additionalFeatureItemService.getAll();
+		
+	}
+	
 	
 
 

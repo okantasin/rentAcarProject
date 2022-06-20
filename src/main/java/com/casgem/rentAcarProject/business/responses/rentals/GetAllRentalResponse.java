@@ -11,14 +11,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GetAllRentalResponse {
 	private int id;
-	private LocalDate pickupDate;
+	private LocalDate pickUpDate;
 	private LocalDate returnDate;
 	private int totalDays;
 	private double totalPrice;
 	private int carId;
 	private int pickupCityId;
 	private int returnCityId;
-	
+	private String brandName;
+	private String colorName;
+	private String cityName;
+	private String firstName;
 	
 	
 	

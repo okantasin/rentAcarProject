@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.casgem.rentAcarProject.business.abstracts.BrandService;
-import com.casgem.rentAcarProject.business.requests.brands.CreateBrandRequest;
-import com.casgem.rentAcarProject.business.requests.brands.DeleteBrandRequest;
-import com.casgem.rentAcarProject.business.requests.brands.UpdateBrandRequest;
+import com.casgem.rentAcarProject.business.requests.brand.CreateBrandRequest;
+import com.casgem.rentAcarProject.business.requests.brand.DeleteBrandRequest;
+import com.casgem.rentAcarProject.business.requests.brand.UpdateBrandRequest;
 import com.casgem.rentAcarProject.business.responses.brands.GetAllBrandResponse;
 import com.casgem.rentAcarProject.business.responses.brands.GetBrandResponse;
 import com.casgem.rentAcarProject.core.utilities.exceptions.BusinessException;
@@ -75,17 +75,15 @@ public class BrandManager implements BrandService {
 
 		List<Brand> brands = this.brandRepository.findAll();
 
-		List<GetAllBrandResponse> responses = brands.stream().map(
-
-				brand -> this.modelMapperService.forResponse()
-
-						.map(brands, GetAllBrandResponse.class))
-
+		List<GetAllBrandResponse> responses = brands.stream()
+				
+				.map(brand -> this.modelMapperService.forResponse().map(brand, GetAllBrandResponse.class))
+				
 				.collect(Collectors.toList());
-
+		
 		return new SuccessDataResult<List<GetAllBrandResponse>>(responses, "ALL.BRAND.LISTED");
 	}
-
+	 
 	@Override
 	public DataResult<GetBrandResponse> getById(int id) {
 

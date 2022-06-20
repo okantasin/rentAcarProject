@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 
 import org.springframework.stereotype.Service;
 
-import com.casgem.rentAcarProject.business.requests.users.CreateUserRequest;
+import com.casgem.rentAcarProject.business.requests.user.CreateUserRequest;
 import com.casgem.rentAcarProject.core.utilities.adapters.abstracts.PersonCheckService;
 
 import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
@@ -14,14 +14,18 @@ public class MernisKpsAdapter implements PersonCheckService{
 	
 	
 	@Override
-	public boolean checkPerson(CreateUserRequest createUserRequest) throws RemoteException {
+	public boolean checkPerson(CreateUserRequest user) throws RemoteException {
+		
 		KPSPublicSoapProxy kpsPublicSoapProxy= new KPSPublicSoapProxy();
 		
-		
-		 boolean result = kpsPublicSoapProxy.TCKimlikNoDogrula(createUserRequest.getNationalityId(), createUserRequest.getFirstName().toUpperCase(),
-				createUserRequest.getLastName().toUpperCase(),
-				createUserRequest.getBirthDay());
+		 boolean result = kpsPublicSoapProxy.TCKimlikNoDogrula(Long.parseLong(user.getNationalityNumber()), user.getFirstName().toUpperCase(),
+				 
+				 user.getLastName().toUpperCase(),
+				
+				 user.getBirthDay());
+		 
 		 return result;
+		 
 	
 	}
 

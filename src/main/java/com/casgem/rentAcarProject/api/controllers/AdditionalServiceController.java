@@ -3,13 +3,17 @@ package com.casgem.rentAcarProject.api.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.casgem.rentAcarProject.business.abstracts.AdditionalFeatureServiceService;
-import com.casgem.rentAcarProject.business.requests.additionalServices.CreateAdditionalServiceRequest;
-import com.casgem.rentAcarProject.business.requests.additionalServices.DeleteAdditionalServiceRequest;
-import com.casgem.rentAcarProject.business.requests.additionalServices.UpdateAdditionalServiceRequest;
+import com.casgem.rentAcarProject.business.requests.additionalService.CreateAdditionalServiceRequest;
+import com.casgem.rentAcarProject.business.requests.additionalService.DeleteAdditionalServiceRequest;
+import com.casgem.rentAcarProject.business.requests.additionalService.UpdateAdditionalServiceRequest;
 import com.casgem.rentAcarProject.core.utilities.results.Result;
 
+@RestController
+@RequestMapping("/api/additionalServices")
 public class AdditionalServiceController {
 	
 	@Autowired

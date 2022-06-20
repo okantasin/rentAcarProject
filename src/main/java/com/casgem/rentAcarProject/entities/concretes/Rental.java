@@ -29,8 +29,8 @@ public class Rental {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="pickup_date")
-	private LocalDate pickupDate;
+	@Column(name="pick_up_date")
+	private LocalDate pickUpDate;
 	
 	@Column(name="return_date")
 	private LocalDate returnDate;
@@ -45,13 +45,12 @@ public class Rental {
 	@JoinColumn(name="car_id")
 	private Car car;
 	
-	//Arabayı kiraladığımız şehir
 	@ManyToOne
-	@JoinColumn(name="pickup_city_id")
-	private City pickupCityId;
-	//Arabayı teslim ettiğimiz şehir
+	@JoinColumn(name="pick_up_city_id",referencedColumnName="id")
+	private City pickUpCityId;
+
 	@ManyToOne
-	@JoinColumn(name="return_city_id")
+	@JoinColumn(name="return_city_id",referencedColumnName="id")
 	private City returnCityId;
 	
 	@OneToMany(mappedBy = "rental")

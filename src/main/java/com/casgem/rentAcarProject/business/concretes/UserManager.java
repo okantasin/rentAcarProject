@@ -9,9 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.casgem.rentAcarProject.business.abstracts.UserService;
-import com.casgem.rentAcarProject.business.requests.users.CreateUserRequest;
-import com.casgem.rentAcarProject.business.requests.users.DeleteUserRequest;
-import com.casgem.rentAcarProject.business.requests.users.UpdateUserRequest;
+import com.casgem.rentAcarProject.business.requests.user.CreateUserRequest;
+import com.casgem.rentAcarProject.business.requests.user.DeleteUserRequest;
+import com.casgem.rentAcarProject.business.requests.user.UpdateUserRequest;
 import com.casgem.rentAcarProject.business.responses.users.GetAllUserResponse;
 import com.casgem.rentAcarProject.business.responses.users.GetUserResponse;
 import com.casgem.rentAcarProject.core.utilities.adapters.abstracts.PersonCheckService;
@@ -38,7 +38,7 @@ public class UserManager implements UserService {
 	@Override
 	public Result add(CreateUserRequest createUserRequest) throws NumberFormatException, RemoteException {
 		checkIfRealPerson(createUserRequest);
-		checkIfIdentityIsSame(createUserRequest.getNationalityId());
+		checkIfIdentityIsSame(createUserRequest.getNationalityNumber());
 		checkIfEmailIsSame(createUserRequest.getEmail());
 		User user = this.modelMapperService.forRequest().map(createUserRequest, User.class);
 		this.userRepository.save(user);
@@ -91,8 +91,8 @@ public class UserManager implements UserService {
 		return new SuccessDataResult<GetUserResponse>(responses, "USES LİSTED");
 	}
 
-	private void checkIfIdentityIsSame(long findByNationalityNumber) {
-		User user = this.userRepository.findByNationalityNumber(findByNationalityNumber);
+	private void checkIfIdentityIsSame(String name) {
+		User user = this.userRepository.findByNationalityNumber(name);
 		if (user != null) {
 			throw new BusinessException("USER.EXIST");
 		}

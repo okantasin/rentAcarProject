@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.casgem.rentAcarProject.business.abstracts.AdditionalFeatureItemService;
 import com.casgem.rentAcarProject.business.abstracts.RentalService;
-import com.casgem.rentAcarProject.business.requests.rentals.CreateRentalRequest;
-import com.casgem.rentAcarProject.business.requests.rentals.DeleteRentalRequest;
-import com.casgem.rentAcarProject.business.requests.rentals.UpdateRentalRequest;
+import com.casgem.rentAcarProject.business.requests.rental.CreateRentalRequest;
+import com.casgem.rentAcarProject.business.requests.rental.DeleteRentalRequest;
+import com.casgem.rentAcarProject.business.requests.rental.UpdateRentalRequest;
 import com.casgem.rentAcarProject.business.responses.rentals.GetAllRentalResponse;
 import com.casgem.rentAcarProject.business.responses.rentals.GetRentalResponse;
 import com.casgem.rentAcarProject.core.utilities.adapters.abstracts.FindeksCheckService;
@@ -39,41 +39,48 @@ public class RentalManager implements RentalService {
 	private CarRepository carRepository;
 
 	private ModelMapperService modelMapperService;
+
 	@Autowired
 	private AdditionalFeatureItemService additionalFeatureItemService;
 
 	@Autowired
-
 	private AdditionalFeatureItemRepository additionalFeatureItemRepository;
 
 	@Autowired
 	private UserRepository userRepository;
+
 	@Autowired
 	private FindeksCheckService findeksCheckService;
 
 	public RentalManager(RentalRepository rentalRepository, CarRepository carRepository,
 			ModelMapperService modelMapperService) {
+		
 		this.rentalRepository = rentalRepository;
+		
 		this.carRepository = carRepository;
+		
 		this.modelMapperService = modelMapperService;
 
 	}
 
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
-
+		
+		checkIfDatesAreCorrect(createRentalRequest.getPickUpDate(), createRentalRequest.getReturnDate());
 		checkIfCarState(createRentalRequest.getCarId());
-		User user = this.userRepository.findById(createRentalRequest.getCarId());
-
-		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
-
-		checkIfDatesAreCorrect(createRentalRequest.getPickupDate(), createRentalRequest.getReturnDate());
-
+		//*************************************************************************************************
+		
 		Car car = this.carRepository.findById(createRentalRequest.getCarId());
-		checkIndividualCustomerFindexScoreAndCarFindexScore(car.getId(),user.getId());
-
+		User user = this.userRepository.findById(createRentalRequest.getUserId());
+		
+		checkIndividualCustomerFindexScoreAndCarFindexScore(car.getId(), user.getId());
+		
+		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		car.setState(3);
-
+		
+		rental.setTotalPrice(calculateTotalPriceOfRental(rental, car.getDailyPrice()));
+		car.setCity(rental.getReturnCityId());
+		
 		this.rentalRepository.save(rental);
 
 		return new SuccessResult("RENTAL.ADDED");
@@ -91,16 +98,22 @@ public class RentalManager implements RentalService {
 	public Result update(UpdateRentalRequest updateRentalRequest) {
 
 		checkIfIdExists(updateRentalRequest.getId());
+
 		Rental rental = this.rentalRepository.findById(updateRentalRequest.getId());
 		Rental rentMapped = this.modelMapperService.forRequest().map(updateRentalRequest, Rental.class);
 		Car car = this.carRepository.findById(updateRentalRequest.getCarId());
 
+		
 		rental.setReturnDate(updateRentalRequest.getReturnDate());
+
 		rental.setReturnCityId(rentMapped.getReturnCityId());
+
 		car.setCity(rentMapped.getReturnCityId());
+
 		rental.setTotalPrice(calculateTotalPriceOfRental(rental, car.getDailyPrice()));
-		;
+	
 		this.rentalRepository.save(rental);
+
 		return new SuccessResult("RENTED.UPDATED");
 	}
 
@@ -109,9 +122,7 @@ public class RentalManager implements RentalService {
 
 		List<Rental> rentals = this.rentalRepository.findAll();
 
-		List<GetAllRentalResponse> responses = rentals.stream().map(
-
-				rental -> this.modelMapperService.forResponse().map(rental, GetAllRentalResponse.class))
+		List<GetAllRentalResponse> responses = rentals.stream().map(rental -> this.modelMapperService.forResponse().map(rental, GetAllRentalResponse.class))
 
 				.collect(Collectors.toList());
 
@@ -135,18 +146,25 @@ public class RentalManager implements RentalService {
 	}
 
 	private void checkIfCarState(int carId) {
+
 		Car car = this.carRepository.findById(carId);
+
 		if (car.getState() != 1) {
+
 			throw new BusinessException("CAR.IS.NOT.AVAILABLE");
 		}
 	}
 
 	private double calculateTotalPriceOfRental(Rental rental, double carDailyPrice) {
+
 		double totalPrice = 0;
-		int daysDifference = (int) ChronoUnit.DAYS.between(rental.getPickupDate(), rental.getReturnDate());
-		totalPrice = (carDailyPrice * daysDifference)
-				+ calculatePriceByReturnLocation(rental.getPickupCityId().getId(), rental.getReturnCityId().getId());
+
+		int daysDifference = (int) ChronoUnit.DAYS.between(rental.getPickUpDate(), rental.getReturnDate());
+
+		totalPrice = (carDailyPrice * daysDifference) + calculatePriceByReturnLocation(rental.getPickUpCityId().getId(), rental.getReturnCityId().getId());
+
 		rental.setTotalDays(daysDifference);
+
 		return totalPrice;
 	}
 
@@ -159,22 +177,32 @@ public class RentalManager implements RentalService {
 	}
 
 	private void checkIfIdExists(int id) {
+
 		Rental rental = this.rentalRepository.findById(id);
+
 		if (rental == null) {
-			throw new BusinessException("THERE.IS.NO.RENTED.CAR");
+
+			throw new BusinessException("THERE.IS.NOT.RENTED.CAR");
+
 		}
 	}
+
 	private void checkIndividualCustomerFindexScoreAndCarFindexScore(int carId, int userId) {
-		
+
 		Car car = this.carRepository.findById(carId);
+
 		User user = this.userRepository.findById(userId);
+
 		int userFindexScore = this.findeksCheckService.checkPerson(user.getNationalityNumber());
-		System.out.println("Car score "+car.getMinFindeksScore());
-		if(userFindexScore < car.getMinFindeksScore()) {
+
+		System.out.println("Car score " + car.getMinFindeksScore());
+
+		if (userFindexScore < car.getMinFindeksScore()) {
+
 			throw new BusinessException("FINDEKS.SCORE.IS.NOT.ENOUGH");
+
 		}
-		
-		
+
 	}
 
 }

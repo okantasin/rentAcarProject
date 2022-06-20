@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.casgem.rentAcarProject.business.abstracts.CarService;
-import com.casgem.rentAcarProject.business.requests.cars.CreateCarRequest;
-import com.casgem.rentAcarProject.business.requests.cars.DeleteCarRequest;
-import com.casgem.rentAcarProject.business.requests.cars.UpdateCarRequest;
+import com.casgem.rentAcarProject.business.requests.car.CreateCarRequest;
+import com.casgem.rentAcarProject.business.requests.car.DeleteCarRequest;
+import com.casgem.rentAcarProject.business.requests.car.UpdateCarRequest;
 import com.casgem.rentAcarProject.business.responses.cars.GetAllCarResponse;
 import com.casgem.rentAcarProject.business.responses.cars.GetCarResponse;
 import com.casgem.rentAcarProject.core.utilities.exceptions.BusinessException;
@@ -32,9 +32,14 @@ public class CarManager implements CarService {
 
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
-		checkIfIdExits(createCarRequest.getId());
+		checIfBrandLimitExceed(createCarRequest.getId());
+		
+	    checIfBrandLimitExceed(createCarRequest.getBrandId());
+	
 		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
+		
 		this.carRepository.save(car);
+		
 		return new SuccessResult("CAR.ADDED");
 	}
 
@@ -64,17 +69,25 @@ public class CarManager implements CarService {
 
 	@Override
 	public DataResult<List<GetAllCarResponse>> getAll() {
+		
 		List<Car> cars = this.carRepository.findAll();
+		
 		List<GetAllCarResponse> responses = cars.stream()
+				
 				.map(car -> this.modelMapperService.forResponse().map(car, GetAllCarResponse.class))
+				
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<GetAllCarResponse>>(responses);
+		
+		return new SuccessDataResult<List<GetAllCarResponse>>(responses,"ALL CARS");
 	}
 
 	@Override
 	public DataResult<GetCarResponse> getById(int id) {
+		
 		Car car = this.carRepository.findById(id);
+		
 		GetCarResponse response = this.modelMapperService.forResponse().map(car, GetCarResponse.class);
+		
 		return new SuccessDataResult<GetCarResponse>(response);
 	}
 
@@ -90,8 +103,11 @@ public class CarManager implements CarService {
 	}
 
 	public void checIfBrandLimitExceed(int id) {
+		
 		List<Car> result = carRepository.getByBrandId(id);
+		
 		if (result.size() > 5) {
+			
 			throw new BusinessException("YOU CAN NOT ADD MORE CAR");
 		}
 	}

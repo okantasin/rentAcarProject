@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.casgem.rentAcarProject.business.abstracts.MaintenanceService;
-import com.casgem.rentAcarProject.business.requests.mainterances.CreateMaintenanceRequest;
-import com.casgem.rentAcarProject.business.requests.mainterances.DeleteMaintenanceRequest;
-import com.casgem.rentAcarProject.business.requests.mainterances.UpdateMaintenanceRequest;
+import com.casgem.rentAcarProject.business.requests.mainterance.CreateMaintenanceRequest;
+import com.casgem.rentAcarProject.business.requests.mainterance.DeleteMaintenanceRequest;
+import com.casgem.rentAcarProject.business.requests.mainterance.UpdateMaintenanceRequest;
 import com.casgem.rentAcarProject.business.responses.mainterances.GetAllMaintenanceResponse;
 import com.casgem.rentAcarProject.business.responses.mainterances.GetMainteranceResponse;
+import com.casgem.rentAcarProject.core.utilities.exceptions.BusinessException;
 import com.casgem.rentAcarProject.core.utilities.mapping.ModelMapperService;
 import com.casgem.rentAcarProject.core.utilities.results.DataResult;
 import com.casgem.rentAcarProject.core.utilities.results.Result;
@@ -37,20 +38,31 @@ public class MainteranceManager implements MaintenanceService {
 	@Autowired
 	public MainteranceManager(MaintenanceRepository maintenanceRepository, ModelMapperService modelMapperService,
 			CarRepository carRepository) {
+
 		super();
+
 		this.maintenanceRepository = maintenanceRepository;
+
 		this.modelMapperService = modelMapperService;
+
 		this.carRepository = carRepository;
+
 	}
 
 	@Override
 	public Result add(CreateMaintenanceRequest createMaintenanceRequest) {
 
+		checkIfstate(createMaintenanceRequest.getId());
+
 		Maintenance maintenance = this.modelMapperService.forRequest().map(createMaintenanceRequest, Maintenance.class);
 
 		Car car = this.carRepository.findById(createMaintenanceRequest.getCarId());
 
+		car.setId(createMaintenanceRequest.getId());
+
 		car.setState(2);
+
+		maintenance.setCar(car);
 
 		this.maintenanceRepository.save(maintenance);
 
@@ -61,9 +73,11 @@ public class MainteranceManager implements MaintenanceService {
 	@Override
 	public Result update(UpdateMaintenanceRequest updateMaintenanceRequest) {
 
-		Maintenance maintenance = this.maintenanceRepository.findById(updateMaintenanceRequest.getId());
+		Maintenance maintenanceDatabase = this.maintenanceRepository.findById(updateMaintenanceRequest.getId());
 
-		maintenance = this.modelMapperService.forRequest().map(updateMaintenanceRequest, Maintenance.class);
+		Maintenance maintenance = this.modelMapperService.forRequest().map(updateMaintenanceRequest, Maintenance.class);
+		
+		maintenance.setSendDate(maintenanceDatabase.getSendDate());
 
 		this.maintenanceRepository.save(maintenance);
 
@@ -77,25 +91,6 @@ public class MainteranceManager implements MaintenanceService {
 		this.maintenanceRepository.deleteById(deleteMaintenanceRequest.getId());
 
 		return new SuccessResult("MAINTENANCE.DELETED");
-
-	}
-
-	public Result updateState(UpdateMaintenanceRequest updateMaintenanceRequest) {
-
-		Car car = this.carRepository.findById(updateMaintenanceRequest.getCarId());
-
-		if (car.getState() == 1) {
-
-			car.setState(2);
-
-		} else {
-
-			car.setState(1);
-
-		}
-		carRepository.save(car);
-
-		return new SuccessResult("STATED.UPDATED");
 
 	}
 
@@ -124,6 +119,31 @@ public class MainteranceManager implements MaintenanceService {
 				GetMainteranceResponse.class);
 
 		return new SuccessDataResult<GetMainteranceResponse>(responses, "MAİNTERANCE.GETTING");
+	}
+
+	public Result updateToState(UpdateMaintenanceRequest updateMaintenanceRequest) {
+		Car car = this.carRepository.findById(updateMaintenanceRequest.getCarId());
+
+		if (car.getState() == 1) {
+
+			car.setState(2);
+
+		} else {
+
+			car.setState(1);
+
+		}
+		carRepository.save(car);
+
+		return new SuccessResult("STATED.UPDATED");
+	}
+
+	public void checkIfstate(int id) {
+		Car car = this.carRepository.findById(id);
+		if (car.getState() != 1) {
+			throw new BusinessException("ALL OF THEM RENTED");
+		}
+
 	}
 
 }

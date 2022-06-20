@@ -3,9 +3,9 @@ package com.casgem.rentAcarProject.business.abstracts;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import com.casgem.rentAcarProject.business.requests.users.CreateUserRequest;
-import com.casgem.rentAcarProject.business.requests.users.DeleteUserRequest;
-import com.casgem.rentAcarProject.business.requests.users.UpdateUserRequest;
+import com.casgem.rentAcarProject.business.requests.user.CreateUserRequest;
+import com.casgem.rentAcarProject.business.requests.user.DeleteUserRequest;
+import com.casgem.rentAcarProject.business.requests.user.UpdateUserRequest;
 import com.casgem.rentAcarProject.business.responses.users.GetAllUserResponse;
 import com.casgem.rentAcarProject.business.responses.users.GetUserResponse;
 import com.casgem.rentAcarProject.core.utilities.results.DataResult;

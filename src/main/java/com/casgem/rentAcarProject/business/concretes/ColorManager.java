@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.casgem.rentAcarProject.business.abstracts.ColorService;
-import com.casgem.rentAcarProject.business.requests.colors.CreateColorRequest;
-import com.casgem.rentAcarProject.business.requests.colors.DeleteColorRequest;
-import com.casgem.rentAcarProject.business.requests.colors.UpdateColorRequest;
+import com.casgem.rentAcarProject.business.requests.color.CreateColorRequest;
+import com.casgem.rentAcarProject.business.requests.color.DeleteColorRequest;
+import com.casgem.rentAcarProject.business.requests.color.UpdateColorRequest;
 import com.casgem.rentAcarProject.business.responses.colors.GetAllColorResponse;
 import com.casgem.rentAcarProject.business.responses.colors.GetColorResponse;
 import com.casgem.rentAcarProject.core.utilities.exceptions.BusinessException;
@@ -70,7 +70,7 @@ public class ColorManager implements ColorService {
 
 				color -> this.modelMapperService.forResponse()
 
-						.map(colors, GetAllColorResponse.class))
+						.map(color, GetAllColorResponse.class))
 
 				.collect(Collectors.toList());
 

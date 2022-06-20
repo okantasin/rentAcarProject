@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.casgem.rentAcarProject.business.abstracts.CityService;
-import com.casgem.rentAcarProject.business.requests.citys.CreateCityRequest;
-import com.casgem.rentAcarProject.business.requests.citys.DeleteCityRequest;
-import com.casgem.rentAcarProject.business.requests.citys.UpdateCityRequest;
+import com.casgem.rentAcarProject.business.requests.city.CreateCityRequest;
+import com.casgem.rentAcarProject.business.requests.city.DeleteCityRequest;
+import com.casgem.rentAcarProject.business.requests.city.UpdateCityRequest;
 import com.casgem.rentAcarProject.business.responses.citys.GetAllCityResponse;
 import com.casgem.rentAcarProject.business.responses.citys.GetCityResponse;
 import com.casgem.rentAcarProject.core.utilities.mapping.ModelMapperService;
@@ -72,11 +72,11 @@ public class CityManager implements CityService {
 
 		List<GetAllCityResponse> responses = citys.stream().map(
 
-				city -> this.modelMapperService.forResponse().map(citys, GetAllCityResponse.class)
+				city -> this.modelMapperService.forResponse().map(city, GetAllCityResponse.class)
 
 		).collect(Collectors.toList());
 
-		return new SuccessDataResult<List<GetAllCityResponse>>(responses);
+		return new SuccessDataResult<List<GetAllCityResponse>>(responses,"ALL CİTİES");
 	}
 
 	@Override

@@ -2,9 +2,9 @@ package com.casgem.rentAcarProject.business.abstracts;
 
 import java.util.List;
 
-import com.casgem.rentAcarProject.business.requests.additionals.CreateAdditionalItemRequest;
-import com.casgem.rentAcarProject.business.requests.additionals.DeleteAdditionalItemRequest;
-import com.casgem.rentAcarProject.business.requests.additionals.UpdateAdditionalItemRequest;
+import com.casgem.rentAcarProject.business.requests.additional.CreateAdditionalItemRequest;
+import com.casgem.rentAcarProject.business.requests.additional.DeleteAdditionalItemRequest;
+import com.casgem.rentAcarProject.business.requests.additional.UpdateAdditionalItemRequest;
 import com.casgem.rentAcarProject.business.responses.additionals.GetAdditionalItemResponse;
 import com.casgem.rentAcarProject.business.responses.additionals.GetAllAdditionalItemResponse;
 import com.casgem.rentAcarProject.core.utilities.results.DataResult;
